@@ -10,18 +10,20 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
-            $table->string('invoice_code')->unique();
-            $table->date('order_date');
-            $table->date('completion_date')->nullable();
-            $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
-            $table->decimal('total_price', 10, 2);
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('orders', function (Blueprint $table) {
+        $table->id();
+        // Foreign key relasi ke tabel customers dengan onDelete('cascade')
+        $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
+        $table->string('invoice_code')->unique();
+        $table->date('order_date');
+        $table->date('completion_date')->nullable();
+        $table->enum('status', ['pending', 'processing', 'ready', 'completed'])->default('pending');
+        $table->decimal('total_price', 12, 2);
+        $table->timestamps();
+    });
+}
+
 
     /**
      * Reverse the migrations.
