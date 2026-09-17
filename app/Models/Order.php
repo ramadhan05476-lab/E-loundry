@@ -20,18 +20,16 @@ class Order extends Model
         'total_price'
     ];
 
-    /**
-     * Relasi balik ke Customer (Setiap order dimiliki oleh satu customer)
-     */
+    protected $casts = [
+        'order_date' => 'date',
+        'completion_date' => 'date',
+    ];
+
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
 
-    /**
-     * Relasi many-to-many ke Service melalui pivot table order_details
-     * Kita juga menyertakan kolom 'qty' dan 'subtotal' yang ada di tabel pivot.
-     */
     public function services(): BelongsToMany
     {
         return $this->belongsToMany(Service::class, 'order_details')
